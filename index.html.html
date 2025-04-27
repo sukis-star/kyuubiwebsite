@@ -1,60 +1,174 @@
 <!DOCTYPE html>
-<title>kyuubi site</title>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cat Lovers Paradise</title>
+  <title>Kyuubi's Cat Paradise</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
-      background-color: #fef6e4;
+      background: linear-gradient(to right, #fef6e4, #ffe0f0);
       color: #333;
       text-align: center;
       padding: 20px;
+      margin: 0;
+      overflow-x: hidden;
     }
     h1 {
       color: #ff6b6b;
+      margin-top: 40px;
+      font-size: 2.8rem;
     }
     img {
       width: 300px;
+      max-width: 90%;
       height: auto;
-      border-radius: 12px;
-      margin: 20px 0;
+      border-radius: 15px;
+      margin: 30px 0;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+      transition: transform 0.3s;
+    }
+    img:hover {
+      transform: scale(1.05);
     }
     .cat-facts {
       background: #fff;
-      padding: 20px;
-      margin: 20px auto;
-      border-radius: 10px;
+      padding: 25px;
+      margin: 30px auto;
+      border-radius: 12px;
       max-width: 600px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+    .cat-facts h2 {
+      margin-bottom: 20px;
+      color: #4d4dff;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+      font-size: 1.1rem;
+    }
+    li {
+      margin: 10px 0;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #4d4dff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #3737d1;
     }
     footer {
-      margin-top: 40px;
-      font-size: 14px;
+      margin-top: 50px;
+      font-size: 0.9rem;
       color: #888;
+    }
+    /* Paw prints animation */
+    .paw {
+      position: absolute;
+      font-size: 2rem;
+      animation: floatUp 10s linear infinite;
+      opacity: 0.5;
+    }
+    @keyframes floatUp {
+      0% {
+        bottom: -50px;
+        left: calc(100% * var(--random-x));
+        opacity: 0;
+      }
+      50% {
+        opacity: 0.7;
+      }
+      100% {
+        bottom: 100vh;
+        left: calc(100% * var(--random-x));
+        opacity: 0;
+      }
     }
   </style>
 </head>
 <body>
 
-  <h1>🐾 Welcome to Kyuubi`s Website! 🐾</h1>
+  <h1>🐾 Welcome to Kyuubi's Cat Paradise! 🐾</h1>
 
-  <img src="https://placekitten.com/400/300" alt="Cute cat">
+  <img id="cat-image" src="https://placekitten.com/400/300" alt="Cute cat">
 
   <div class="cat-facts">
-    <h2>Did you know?</h2>
-    <ul style="list-style-type: none; padding: 0;">
-      <li>🐱 Cats sleep 12-16 hours a day!</li>
+    <h2>Fun Cat Facts!</h2>
+    <ul id="facts-list">
+      <li>🐱 Cats sleep 12–16 hours a day!</li>
       <li>🐱 A group of cats is called a clowder.</li>
-      <li>🐱 Cats can make over 100 different sounds.</li>
+      <li>🐱 Cats can make over 100 different sounds!</li>
+      <li>🐱 The oldest cat ever lived to be 38 years old!</li>
     </ul>
+    <button onclick="showRandomFact()">Show Random Fact</button>
+    <p id="random-fact" style="margin-top:20px; font-weight: bold;"></p>
   </div>
 
   <footer>
-    Made with love 🧡 for cat lovers everywhere.
+    Made by <strong>kubi_kubbi</strong> on Discord. 🐾
   </footer>
+
+  <!-- Cat Meow Sound -->
+  <audio id="meow-sound" src="https://www.fesliyanstudios.com/play-mp3/6516" preload="auto"></audio>
+
+  <script>
+    const facts = [
+      "Cats sleep 12–16 hours a day!",
+      "A group of cats is called a clowder.",
+      "Cats can make over 100 different sounds!",
+      "The oldest cat ever lived to be 38 years old!",
+      "Cats' whiskers are roughly as wide as their bodies!",
+      "Most cats don't have a sweet tooth.",
+      "A cat’s brain is 90% similar to a human's brain!",
+      "The first cat went to space in 1963!",
+      "Cats can jump up to six times their body length!",
+      "In ancient Egypt, cats were worshipped as gods!"
+    ];
+
+    const images = [
+      "https://placekitten.com/400/300",
+      "https://placekitten.com/401/301",
+      "https://placekitten.com/402/302",
+      "https://placekitten.com/403/303",
+      "https://placekitten.com/404/304"
+    ];
+
+    function showRandomFact() {
+      const randomIndex = Math.floor(Math.random() * facts.length);
+      document.getElementById('random-fact').textContent = "🐾 " + facts[randomIndex];
+
+      const randomImage = images[Math.floor(Math.random() * images.length)];
+      document.getElementById('cat-image').src = randomImage;
+
+      document.getElementById('meow-sound').play();
+    }
+
+    // Floating paws generator
+    setInterval(() => {
+      const paw = document.createElement('div');
+      paw.classList.add('paw');
+      paw.style.left = Math.random() * 100 + 'vw';
+      paw.style.setProperty('--random-x', Math.random());
+      paw.innerText = '🐾';
+      document.body.appendChild(paw);
+      setTimeout(() => paw.remove(), 10000);
+    }, 1000);
+
+    // Welcome message
+    window.onload = function() {
+      setTimeout(() => {
+        alert("😺 Welcome to Kyuubi's Cat Paradise! Enjoy your stay!");
+      }, 500);
+    }
+  </script>
 
 </body>
 </html>
